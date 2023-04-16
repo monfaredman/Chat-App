@@ -23,6 +23,13 @@ io.on("connection", (socket) => {
     io.emit("message", msg);
   });
 
+  socket.on("sendLocation", (loc) => {
+    io.emit(
+      "message",
+      `Location: https://google.com/maps?q=${loc.lat},${loc.long}`
+    );
+  });
+
   socket.on("disconnect", () => {
     io.emit("message", "user left !");
   });
