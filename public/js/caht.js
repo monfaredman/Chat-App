@@ -9,10 +9,23 @@ const $messages = document.querySelector("#messages");
 
 // Templates
 const messageTemplate = document.querySelector("#message-template").innerHTML;
+const locationMessageTemplate = document.querySelector(
+  "#location-message-template"
+).innerHTML;
 
 socket.on("message", (msg) => {
-  console.log(msg);
-  const html = Mustache.render(messageTemplate, { message: msg });
+  const html = Mustache.render(messageTemplate, {
+    message: msg.text,
+    createdAt: moment(msg.createdAt).format("h:mm a"),
+  });
+  $messages.insertAdjacentHTML("beforeend", html);
+});
+
+socket.on("locationMessage", (url) => {
+  const html = Mustache.render(locationMessageTemplate, {
+    url: url.url,
+    createdAt: moment(url.createdAsdfgt).format("h:mm a"),
+  });
   $messages.insertAdjacentHTML("beforeend", html);
 });
 
@@ -26,7 +39,7 @@ $messageForm.addEventListener("submit", (e) => {
   $messageFormInput.focus();
 });
 
-document.querySelector("#send-location").addEventListener("click", () => {
+$sendLocationButton.addEventListener("click", () => {
   if (!navigator.geolocation) {
     return alert("Geolocation is not supported by your browser!");
   }

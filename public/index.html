@@ -3,53 +3,27 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat-App</title>
+    <title>Chat App</title>
+    <link rel="stylesheet" href="./css/styles.min.css" />
+    <link rel="icon" href="./img/favicon.png" />
   </head>
   <body>
-    <h1>Ready to chat</h1>
-    <div id="messages"></div>
-    <div>
-      <form id="message-form">
-        <input
-          name="message"
-          style="padding: 10px; border-radius: 10px"
-          type="text"
-          placeholder="Message"
-        />
-        <button
-          style="
-            border: 1px solid gray;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 10px;
-          "
-        >
-          Submit
-        </button>
-      </form>
-    </div>
-    <div>
-      <button
-        id="send-location"
-        style="
-          border: 1px solid gray;
-          padding: 10px;
-          cursor: pointer;
-          border-radius: 10px;
-        "
-      >
-        Send Location
-      </button>
-    </div>
-    <script id="message-template" type="text/html">
-      <div>
-        <p>{{message}}</p>
+    <div class="centered-form">
+      <div class="centered-form__box">
+        <h1>Join</h1>
+        <form action="/chat.html">
+          <label>Display name</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="Display name"
+            required
+          />
+          <label>Room</label>
+          <input type="text" name="room" placeholder="Room" required />
+          <button>Join</button>
+        </form>
       </div>
-    </script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
-    <script src="./js/caht.js"></script>
+    </div>
   </body>
 </html>
