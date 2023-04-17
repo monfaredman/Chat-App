@@ -13,8 +13,14 @@ const locationMessageTemplate = document.querySelector(
   "#location-message-template"
 ).innerHTML;
 
+// Options
+const { username, room } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true,
+});
+
 socket.on("message", (msg) => {
   const html = Mustache.render(messageTemplate, {
+    username: msg.username,
     message: msg.text,
     createdAt: moment(msg.createdAt).format("h:mm a"),
   });
@@ -23,6 +29,7 @@ socket.on("message", (msg) => {
 
 socket.on("locationMessage", (url) => {
   const html = Mustache.render(locationMessageTemplate, {
+    username: url.username,
     url: url.url,
     createdAt: moment(url.createdAsdfgt).format("h:mm a"),
   });
@@ -33,10 +40,14 @@ $messageForm.addEventListener("submit", (e) => {
   e.preventDefault();
   $messageFormButton.setAttribute("disabled", "disabled");
   const message = e.target.elements.message.value;
-  socket.emit("submitFormData", message);
-  $messageFormButton.removeAttribute("disabled");
-  $messageFormInput.value = "";
-  $messageFormInput.focus();
+  socket.emit("sendMessage", message, (error) => {
+    $messageFormButton.removeAttribute("disabled");
+    $messageFormInput.value = "";
+    $messageFormInput.focus();
+    if (error) {
+      return console.log(error);
+    }
+  });
 });
 
 $sendLocationButton.addEventListener("click", () => {
@@ -49,4 +60,11 @@ $sendLocationButton.addEventListener("click", () => {
       long: position.coords.longitude,
     });
   });
+});
+
+socket.emit("join", { username, room }, (error) => {
+  if (error) {
+    alert(error);
+    location.href = "/";
+  }
 });
